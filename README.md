@@ -1,1 +1,75 @@
 # STUDENT-MANAGEMENT-SYSTEM
+# Course Registration System
+
+## Project Overview
+This project is an interactive course registration system developed for university students. It helps in selecting courses, checking seat availability in real time, and avoiding scheduling conflicts.
+
+## Features
+### **Student Features:**
+- **Login:** Students log in using their roll numbers (no registration required).
+- **Interactive Weekly Schedule:** Displays courses in a calendar view, highlighting any time conflicts.
+- **Real-Time Seat Availability:** Updates available seats dynamically without requiring page refreshes.
+- **Course Filtering:** Search for courses based on department, level, time, days of the week, and open seats.
+- **Schedule Persistence:** Keeps track of selected courses throughout the session.
+- **Prerequisite Management:** Shows course prerequisites to help students with planning.
+
+### **Admin Features:**
+- **Login:** Admins log in with a username and password.
+- **Course Management:** Admins can add, update, delete courses, and set prerequisites.
+- **Student Management:** View and manage student registrations, override in special cases.
+- **Seat Management:** Modify seat availability for courses.
+- **Reports:** Generate reports on student registrations, available courses, and prerequisite completion.
+
+### **Bonus Features:**
+- **Seat Availability Notifications:** Students can subscribe to courses and get notified when seats open up.
+
+## **Technology Stack**
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Node.js with Express
+- **Database:** MongoDB
+
+## **Setup and Installation**
+### **Prerequisites:**
+- Install Node.js
+- Install MongoDB and ensure it is running
+- Install Git
+
+### **Clone the Repository:**
+```bash
+git clone <your-repository-link>
+cd course-registration-system
+```
+
+### **Install Dependencies:**
+```bash
+npm install
+```
+
+### **Start the Backend Server:**
+```bash
+node server.js
+```
+
+### **Start the Frontend:**
+Open `index.html` in a web browser.
+
+## **Database Setup**
+1. Create a MongoDB database named `university_registration`.
+2. Create collections:
+   - `students` (stores student roll numbers, registered courses, etc.)
+   - `courses` (stores course details, schedule, prerequisites, available seats)
+   - `admins` (stores admin credentials for login)
+
+## **GitHub Repository**
+[Course Registration System Repository](<your-github-repository-link>)
+
+## **Developer**
+- **Minha Muhammad** (Student Developer)
+
+## **License**
+This project is licensed under the MIT License.
+
+---
+This README provides all the necessary setup instructions and project documentation. Remember to replace `<your-repository-link>` with your actual GitHub repository link before publishing.
+
+
