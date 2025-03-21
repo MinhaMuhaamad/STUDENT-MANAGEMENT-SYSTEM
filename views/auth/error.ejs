@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+
+<div class="error-container">
+  <div class="error-card">
+    <h2>Error</h2>
+    <p><%= message %></p>
+    <% if (typeof error !== 'undefined' && process.env.NODE_ENV === 'development') { %>
+      <div class="error-details">
+        <pre><%= JSON.stringify(error, null, 2) %></pre>
+      </div>
+    <% } %>
+    <a href="/" class="btn btn-primary">Back to Login</a>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
+

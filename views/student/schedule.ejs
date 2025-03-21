@@ -1,0 +1,129 @@
+<%- include('../partials/header', { studentPage: true, user: { role: 'student' } }) %>
+
+<div class="schedule-container">
+  <h2>My Weekly Schedule</h2>
+  
+  <div class="schedule-summary">
+    <div class="summary-item">
+      <span class="summary-label">Total Courses:</span>
+      <span class="summary-value"><%= registeredCourses.length %></span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Total Credit Hours:</span>
+      <span class="summary-value">
+        <%= registeredCourses.reduce((total, course) => total + course.creditHours, 0) %>
+      </span>
+    </div>
+  </div>
+  
+  <div class="weekly-schedule-container">
+    <div class="weekly-schedule full-schedule" id="weekly-schedule">
+      <div class="time-labels">
+        <div class="day-label"></div>
+        <div class="time-label">8:00</div>
+        <div class="time-label">9:00</div>
+        <div class="time-label">10:00</div>
+        <div class="time-label">11:00</div>
+        <div class="time-label">12:00</div>
+        <div class="time-label">13:00</div>
+        <div class="time-label">14:00</div>
+        <div class="time-label">15:00</div>
+        <div class="time-label">16:00</div>
+        <div class="time-label">17:00</div>
+        <div class="time-label">18:00</div>
+        <div class="time-label">19:00</div>
+        <div class="time-label">20:00</div>
+        <div class="time-label">21:00</div>
+      </div>
+      <div class="schedule-grid">
+        <div class="day-row">
+          <div class="day-label">Monday</div>
+          <div class="day-schedule" id="monday-schedule"></div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Tuesday</div>
+          <div class="day-schedule" id="tuesday-schedule"></div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Wednesday</div>
+          <div class="day-schedule" id="wednesday-schedule"></div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Thursday</div>
+          <div class="day-schedule" id="thursday-schedule"></div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Friday</div>
+          <div class="day-schedule" id="friday-schedule"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="course-list">
+    <h3>Registered Courses</h3>
+    
+    <% if (registeredCourses.length > 0) { %>
+      <div class="courses-table-container">
+        <table class="courses-table">
+          <thead>
+            <tr>
+              <th>Course Code</th>
+              <th>Title</th>
+              <th>Department</th>
+              <th>Credit Hours</th>
+              <th>Schedule</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% registeredCourses.forEach(course => { %>
+              <tr>
+                <td><%= course.courseCode %></td>
+                <td><%= course.title %></td>
+                <td><%= course.department %></td>
+                <td><%= course.creditHours %></td>
+                <td>
+                  <% course.schedule.forEach(schedule => { %>
+                    <div class="schedule-item">
+                      <%= schedule.day %>, <%= schedule.startTime %> - <%= schedule.endTime %>, <%= schedule.room %>
+                    </div>
+                  <% }); %>
+                </td>
+                <td>
+                  <button class="btn btn-small btn-danger drop-course-btn" 
+                          data-course-id="<%= course._id %>"
+                          data-course-code="<%= course.courseCode %>">
+                    Drop
+                  </button>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="no-courses-message">
+        <p>You haven't registered for any courses yet.</p>
+        <a href="/student/course-search" class="btn btn-primary">Find Courses</a>
+      </div>
+    <% } %>
+  </div>
+  
+  <!-- Drop Course Confirmation Modal -->
+  <div id="drop-course-modal" class="modal">
+    <div class="modal-content">
+      <h3>Confirm Drop Course</h3>
+      <p>Are you sure you want to drop <span id="drop-course-name"></span>?</p>
+      <div class="form-actions">
+        <button id="confirm-drop-btn" class="btn btn-danger">Drop Course</button>
+        <button id="cancel-drop-btn" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/student/schedule.js"></script>
+
+<%- include('../partials/footer') %>
+

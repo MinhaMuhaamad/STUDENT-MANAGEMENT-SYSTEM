@@ -1,0 +1,41 @@
+<%- include('../partials/header', { adminPage: true, user: { role: 'admin' } }) %>
+
+<div class="admin-dashboard">
+  <h2>Admin Dashboard</h2>
+  
+  <div class="dashboard-stats">
+    <div class="stat-card">
+      <h3>Total Courses</h3>
+      <p class="stat-number"><%= courseCount %></p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Students</h3>
+      <p class="stat-number"><%= studentCount %></p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Registrations</h3>
+      <p class="stat-number"><%= registrationCount %></p>
+    </div>
+  </div>
+  
+  <div class="dashboard-actions">
+    <div class="action-card">
+      <h3>Course Management</h3>
+      <p>Add, update, or delete courses in the system</p>
+      <a href="/admin/courses" class="btn btn-primary">Manage Courses</a>
+    </div>
+    <div class="action-card">
+      <h3>Student Management</h3>
+      <p>View and manage student registrations</p>
+      <a href="/admin/students" class="btn btn-primary">Manage Students</a>
+    </div>
+    <div class="action-card">
+      <h3>Reports</h3>
+      <p>Generate and view system reports</p>
+      <a href="/admin/reports" class="btn btn-primary">View Reports</a>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
+

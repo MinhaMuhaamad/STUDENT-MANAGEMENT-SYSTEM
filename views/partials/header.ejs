@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Course Registration System</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <% if (typeof adminPage !=='undefined' && adminPage) { %>
+    <link rel="stylesheet" href="/css/admin.css">
+    <% } %>
+      <% if (typeof studentPage !=='undefined' && studentPage) { %>
+        <link rel="stylesheet" href="/css/student.css">
+        <% } %>
+</head>
+
+<body>
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="/images/download.png" alt="University Logo" class="logo">
+      <h1>University Course Registration System</h1>
+    </div>
+    <% if (typeof user !=='undefined' ) { %>
+      <nav class="main-nav">
+        <% if (user.role==='admin' ) { %>
+          <a href="/admin/dashboard">Dashboard</a>
+          <a href="/admin/courses">Courses</a>
+          <a href="/admin/students">Students</a>
+          <a href="/admin/reports">Reports</a>
+          <% } else if (user.role==='student' ) { %>
+            <a href="/student/dashboard">Dashboard</a>
+            <a href="/student/course-search">Course Search</a>
+            <a href="/student/schedule">My Schedule</a>
+            <% } %>
+              <a href="/logout" class="logout-btn">Logout</a>
+      </nav>
+      <% } %>
+  </header>
+  <main class="container">

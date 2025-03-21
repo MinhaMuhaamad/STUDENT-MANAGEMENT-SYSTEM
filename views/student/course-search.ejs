@@ -1,0 +1,185 @@
+<%- include('../partials/header', { studentPage: true, user: { role: 'student' } }) %>
+
+<div class="course-search-container">
+  <h2>Course Search</h2>
+  
+  <div class="search-filters">
+    <div class="filter-group">
+      <label for="department-filter">Department</label>
+      <select id="department-filter">
+        <option value="all">All Departments</option>
+        <% departments.forEach(dept => { %>
+          <option value="<%= dept %>"><%= dept %></option>
+        <% }); %>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label for="level-filter">Course Level</label>
+      <select id="level-filter">
+        <option value="all">All Levels</option>
+        <option value="100">100 Level</option>
+        <option value="200">200 Level</option>
+        <option value="300">300 Level</option>
+        <option value="400">400 Level</option>
+        <option value="500">500 Level</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label for="day-filter">Day of Week</label>
+      <select id="day-filter">
+        <option value="all">All Days</option>
+        <option value="Monday">Monday</option>
+        <option value="Tuesday">Tuesday</option>
+        <option value="Wednesday">Wednesday</option>
+        <option value="Thursday">Thursday</option>
+        <option value="Friday">Friday</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label for="time-filter">Time of Day</label>
+      <select id="time-filter">
+        <option value="all">All Times</option>
+        <option value="morning">Morning (8AM-12PM)</option>
+        <option value="afternoon">Afternoon (12PM-5PM)</option>
+        <option value="evening">Evening (5PM-9PM)</option>
+      </select>
+    </div>
+    
+    <div class="filter-group checkbox-group">
+      <input type="checkbox" id="available-seats-filter" checked>
+      <label for="available-seats-filter">Available Seats Only</label>
+    </div>
+  </div>
+  
+  <div class="search-bar">
+    <input type="text" id="keyword-search" placeholder="Search by course code, title, or description...">
+    <button id="search-btn" class="btn btn-primary">Search</button>
+    <button id="reset-btn" class="btn btn-secondary">Reset Filters</button>
+  </div>
+  
+  <div class="search-results-container">
+    <div class="results-header">
+      <h3>Search Results</h3>
+      <span id="results-count" class="results-count">0 courses found</span>
+    </div>
+    
+    <div id="search-results" class="search-results">
+      <!-- Results will be loaded here -->
+      <div class="no-results-message">
+        Use the filters above to search for courses
+      </div>
+    </div>
+  </div>
+  
+  <div class="selected-courses-container">
+    <h3>Your Weekly Schedule</h3>
+    <div class="weekly-schedule" id="weekly-schedule">
+      <div class="time-labels">
+        <div class="day-label"></div>
+        <div class="time-label">8:00</div>
+        <div class="time-label">9:00</div>
+        <div class="time-label">10:00</div>
+        <div class="time-label">11:00</div>
+        <div class="time-label">12:00</div>
+        <div class="time-label">13:00</div>
+        <div class="time-label">14:00</div>
+        <div class="time-label">15:00</div>
+        <div class="time-label">16:00</div>
+        <div class="time-label">17:00</div>
+        <div class="time-label">18:00</div>
+        <div class="time-label">19:00</div>
+        <div class="time-label">20:00</div>
+        <div class="time-label">21:00</div>
+      </div>
+      <div class="schedule-grid">
+        <div class="day-row">
+          <div class="day-label">Monday</div>
+          <div class="day-schedule" id="monday-schedule"></div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Tuesday</div>
+          <div class="day-schedule" id="tuesday-schedule"></div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Wednesday</div>
+          <div class="day-schedule" id="wednesday-schedule"></div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Thursday</div>
+          <div class="day-schedule" id="thursday-schedule"></div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Friday</div>
+          <div class="day-schedule" id="friday-schedule"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Course Details Modal -->
+  <div id="course-details-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 id="modal-course-title">Course Details</h3>
+      
+      <div class="course-details">
+        <div class="detail-row">
+          <span class="detail-label">Course Code:</span>
+          <span id="detail-courseCode" class="detail-value"></span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Department:</span>
+          <span id="detail-department" class="detail-value"></span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Credit Hours:</span>
+          <span id="detail-creditHours" class="detail-value"></span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Available Seats:</span>
+          <span id="detail-availableSeats" class="detail-value"></span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Description:</span>
+          <span id="detail-description" class="detail-value"></span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Prerequisites:</span>
+          <span id="detail-prerequisites" class="detail-value"></span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Schedule:</span>
+          <div id="detail-schedule" class="detail-value schedule-list"></div>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button id="register-btn" class="btn btn-primary">Register</button>
+        <button id="subscribe-btn" class="btn btn-secondary">Subscribe for Notifications</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Registration Result Modal -->
+  <div id="registration-result-modal" class="modal">
+    <div class="modal-content">
+      <h3 id="result-title">Registration Result</h3>
+      <p id="result-message"></p>
+      <button id="result-ok-btn" class="btn btn-primary">OK</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/student/course-search.js"></script>
+
+<%- include('../partials/footer') %>
+

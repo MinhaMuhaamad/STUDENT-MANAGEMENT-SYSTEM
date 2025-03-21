@@ -1,0 +1,3 @@
+
+
+mongodb+srv://<db_username>:894c5012@cluster0.epkwp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0

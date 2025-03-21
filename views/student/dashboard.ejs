@@ -1,0 +1,129 @@
+<%- include('../partials/header', { studentPage: true, user: { role: 'student' } }) %>
+
+<div class="student-dashboard">
+  <h2>Welcome, <%= student.name %></h2>
+  
+  <div class="dashboard-summary">
+    <div class="summary-card">
+      <h3>Your Information</h3>
+      <div class="info-item">
+        <span class="info-label">Roll Number:</span>
+        <span class="info-value"><%= student.rollNumber %></span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Department:</span>
+        <span class="info-value"><%= student.department %></span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Email:</span>
+        <span class="info-value"><%= student.email %></span>
+      </div>
+    </div>
+    
+    <div class="summary-card">
+      <h3>Registration Summary</h3>
+      <div class="info-item">
+        <span class="info-label">Registered Courses:</span>
+        <span class="info-value"><%= registeredCourses.length %></span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Total Credit Hours:</span>
+        <span class="info-value">
+          <%= registeredCourses.reduce((total, course) => total + course.creditHours, 0) %>
+        </span>
+      </div>
+      <div class="action-buttons">
+        <a href="/student/course-search" class="btn btn-primary">Find Courses</a>
+        <a href="/student/schedule" class="btn btn-secondary">View Schedule</a>
+      </div>
+    </div>
+    
+    <div class="summary-card notifications-card">
+      <h3>Notifications</h3>
+      <div class="notifications-list">
+        <% if (notifications && notifications.length > 0) { %>
+          <% notifications.forEach(notification => { %>
+            <div class="notification-item <%= notification.read ? 'read' : 'unread' %>" 
+                 data-notification-id="<%= notification._id %>">
+              <div class="notification-content">
+                <%= notification.message %>
+              </div>
+              <div class="notification-time">
+                <%= new Date(notification.createdAt).toLocaleString() %>
+              </div>
+              <% if (!notification.read) { %>
+                <button class="mark-read-btn" data-notification-id="<%= notification._id %>">
+                  Mark as Read
+                </button>
+              <% } %>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <div class="no-notifications">
+            No notifications at this time
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  
+  <div class="registered-courses">
+    <h3>Your Registered Courses</h3>
+    
+    <% if (registeredCourses.length > 0) { %>
+      <div class="courses-grid">
+        <% registeredCourses.forEach(course => { %>
+          <div class="course-card">
+            <div class="course-header">
+              <h4><%= course.courseCode %></h4>
+              <span class="department-badge"><%= course.department %></span>
+            </div>
+            <div class="course-title"><%= course.title %></div>
+            <div class="course-details">
+              <div class="detail-item">
+                <span class="detail-label">Credit Hours:</span>
+                <span class="detail-value"><%= course.creditHours %></span>
+              </div>
+              <div class="detail-item schedule-preview">
+                <span class="detail-label">Schedule:</span>
+                <div class="schedule-days">
+                  <% 
+                    const days = course.schedule.map(s => s.day.substring(0, 3)).join(', ');
+                  %>
+                  <%= days %>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-small btn-danger drop-course-btn" 
+                    data-course-id="<%= course._id %>"
+                    data-course-code="<%= course.courseCode %>">
+              Drop Course
+            </button>
+          </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <div class="no-courses-message">
+        <p>You haven't registered for any courses yet.</p>
+        <a href="/student/course-search" class="btn btn-primary">Find Courses</a>
+      </div>
+    <% } %>
+  </div>
+  
+  <!-- Drop Course Confirmation Modal -->
+  <div id="drop-course-modal" class="modal">
+    <div class="modal-content">
+      <h3>Confirm Drop Course</h3>
+      <p>Are you sure you want to drop <span id="drop-course-name"></span>?</p>
+      <div class="form-actions">
+        <button id="confirm-drop-btn" class="btn btn-danger">Drop Course</button>
+        <button id="cancel-drop-btn" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/student/dashboard.js"></script>
+
+<%- include('../partials/footer') %>
+

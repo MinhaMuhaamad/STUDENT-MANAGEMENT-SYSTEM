@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual University Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 480px;
+            background: linear-gradient(145deg, #2d3436, #3d3d3d);
+            border-radius: 16px;
+            padding: 3.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .welcome-text {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .welcome-text::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .btn-login {
+            position: relative;
+            overflow: hidden;
+            padding: 1.2rem 3.5rem;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: none;
+            outline: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 2rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.5);
+            background: linear-gradient(45deg, #2980b9, #3498db);
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .decorative-circles {
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, transparent);
+            opacity: 0.2;
+        }
+
+        .decorative-circles:nth-child(2) {
+            top: auto;
+            bottom: -30px;
+            left: auto;
+            right: -30px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2980b9, transparent);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="decorative-circles"></div>
+        <div class="decorative-circles"></div>
+        <h1 id="welcome-text" class="welcome-text"></h1>
+        <button class="btn-login" id="loginBtn">GET STARTED</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Dynamic welcome text with typing effect
+            const welcomeText = document.getElementById('welcome-text');
+            const textToType = "Welcome to System";
+            let index = 0;
+
+            // Make the welcome text visible
+            welcomeText.style.opacity = "1";
+            welcomeText.style.transform = "translateY(0)";
+
+            // Typing effect
+            function typeText() {
+                if (index < textToType.length) {
+                    welcomeText.textContent += textToType.charAt(index);
+                    index++;
+                    setTimeout(typeText, 100);
+                }
+            }
+
+            // Start typing after a short delay
+            setTimeout(typeText, 500);
+
+            // Button click handler with ripple effect
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.addEventListener('click', function (e) {
+                // Add ripple effect
+                let ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+
+                let x = e.clientX - e.target.offsetLeft;
+                let y = e.clientY - e.target.offsetTop;
+
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+
+                // Remove ripple after animation
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+
+                // Navigate to login page - keeping the existing functionality
+                setTimeout(() => {
+                    window.location.href = '/auth/login';
+                }, 300);
+            });
+
+            loginBtn.addEventListener('mousedown', function () {
+                this.style.transform = 'scale(0.98)';
+            });
+
+            loginBtn.addEventListener('mouseup', function () {
+                this.style.transform = 'translateY(-5px)';
+            });
+        });
+    </script>
+</body>
+
+</html>
